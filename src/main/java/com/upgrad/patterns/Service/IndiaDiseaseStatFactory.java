@@ -4,11 +4,15 @@ import com.upgrad.patterns.Interfaces.IndianDiseaseStat;
 import com.upgrad.patterns.Constants.SourceType;
 import com.upgrad.patterns.Strategies.DiseaseShStrategy;
 import com.upgrad.patterns.Strategies.JohnHopkinsStrategy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class IndiaDiseaseStatFactory {
+
+    private static Logger logger = LoggerFactory.getLogger(IndiaDiseaseStatFactory.class);
     private IndianDiseaseStat diseaseShStrategy;
     private IndianDiseaseStat johnHopkinsStrategy;
 
@@ -44,6 +48,7 @@ public class IndiaDiseaseStatFactory {
         }else if (sourceEnum.equals(SourceType.DiseaseSh)){
             this.requestedStrategy= diseaseShStrategy;
         }else{
+            logger.error("invalid disease strategy/sourceType");
             throw new IllegalArgumentException("invalid disease strategy/sourceType");
         }
 
