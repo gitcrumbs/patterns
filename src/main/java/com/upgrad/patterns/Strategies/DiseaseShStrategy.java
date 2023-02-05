@@ -5,6 +5,7 @@ import com.upgrad.patterns.Entity.DiseaseShResponse;
 import com.upgrad.patterns.Interfaces.IndianDiseaseStat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -20,10 +21,11 @@ public class DiseaseShStrategy implements IndianDiseaseStat {
 
     private Logger logger = LoggerFactory.getLogger(DiseaseShStrategy.class);
 
+    @Autowired
     private RestTemplate restTemplate;
 
-    @Value("${config.diseaseSh-io-url}")
-    private String baseUrl;
+    @Value("${diseaseSh.io.url}")
+    private String baseUrl= "https://disease.sh/v3/covid-19/countries/India";
 
     public DiseaseShStrategy()
     {
@@ -32,26 +34,31 @@ public class DiseaseShStrategy implements IndianDiseaseStat {
 
     @Override
     public String GetActiveCount() {
-    	//write a try catch block here
-    	
-    	//try block
-    	
-	    	//obtain response from the getDiseaseShResponseResponses() method
-	    	//store it in an object
-	    	
-    		//get the response using the getCases() method
-	    	//return the response after rounding it up to 0 decimal places
-    	
-    	
-    	//catch block
-    		//log the error
-    	
-    		return null;
+       //write a try catch block here
+        String diseaseShResponse = "" ;
+       //try block
+       try{
+            //obtain response from the getDiseaseShResponseResponses() method
+            //store it in an object
+            //get the response using the getCases() method
+            //return the response after rounding it up to 0 decimal places
+            diseaseShResponse = String.valueOf(getDiseaseShResponseResponses().getCases().intValue());
 
-    	
+            System.out.println(diseaseShResponse);
+            //catch block
+
+        }catch (Exception e){
+            //log the error
+            System.out.println("Exception in populating count "+e);
+        }
+
+        return diseaseShResponse;
+
+       
     }
 
     private DiseaseShResponse getDiseaseShResponseResponses() {
+
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
         headers.add("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36");
