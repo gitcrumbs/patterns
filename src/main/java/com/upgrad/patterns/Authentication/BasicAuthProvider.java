@@ -5,8 +5,8 @@ public class BasicAuthProvider extends AuthenticationProvider {
     private String password;
 
     public BasicAuthProvider(String userName, String password) {
-        this.userName = "India";
-        this.password = "India";
+        this.userName = userName;
+        this.password = password;
     }
 
     @Override

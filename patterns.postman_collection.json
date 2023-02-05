@@ -1,0 +1,142 @@
+{
+	"info": {
+		"_postman_id": "b93b19bb-6ee2-490a-bc8b-ee156b8275e1",
+		"name": "patterns",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "DiseaseSh",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Username",
+						"value": "Invalid",
+						"type": "default",
+						"disabled": true
+					},
+					{
+						"key": "Password",
+						"value": "Invalid",
+						"type": "default",
+						"disabled": true
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer invalid",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/v1/disease/disease-sh-io/count",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"disease",
+						"disease-sh-io",
+						"count"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "JohnHopkins",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Username",
+						"value": "India",
+						"type": "default"
+					},
+					{
+						"key": "Password",
+						"value": "India",
+						"type": "default"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer upgrad",
+						"type": "default",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/v1/disease/john-hopkins/count",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"disease",
+						"john-hopkins",
+						"count"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Infected Ratio",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Username",
+						"value": "India",
+						"type": "default",
+						"disabled": true
+					},
+					{
+						"key": "Password",
+						"value": "India",
+						"type": "default",
+						"disabled": true
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer upgrad",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/v1/disease/infected-ratio?sourceType=DiseaseSh",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"disease",
+						"infected-ratio"
+					],
+					"query": [
+						{
+							"key": "sourceType",
+							"value": "DiseaseSh"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

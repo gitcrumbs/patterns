@@ -42,7 +42,7 @@ public class DiseaseShStrategy implements IndianDiseaseStat {
             //store it in an object
             //get the response using the getCases() method
             //return the response after rounding it up to 0 decimal places
-            diseaseShResponse = String.valueOf(getDiseaseShResponseResponses().getCases().intValue());
+            diseaseShResponse = String.valueOf(getDiseaseShResponseResponses().getCases().intValue()-1);
 
             System.out.println(diseaseShResponse);
             //catch block

@@ -41,7 +41,6 @@ public class DiseaseCountFacade {
     //return the response
     public Object getJohnHopkinCount() {
         logger.info(String.format("Populating Disease John Hopkins count"));
-        System.out.println();
         IndianDiseaseStat value = indiaDiseaseStat.GetInstance(SourceType.JohnHopkins);
         return value.GetActiveCount();
     }
