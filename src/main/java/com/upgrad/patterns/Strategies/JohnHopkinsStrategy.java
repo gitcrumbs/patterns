@@ -2,6 +2,7 @@ package com.upgrad.patterns.Strategies;
 
 import com.upgrad.patterns.Config.RestServiceGenerator;
 import com.upgrad.patterns.Entity.JohnHopkinResponse;
+import com.upgrad.patterns.Entity.Stat;
 import com.upgrad.patterns.Interfaces.IndianDiseaseStat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,44 +21,54 @@ import java.util.stream.Collectors;
 @Service
 public class JohnHopkinsStrategy implements IndianDiseaseStat {
 
-	private Logger logger = LoggerFactory.getLogger(JohnHopkinsStrategy.class);
+   private Logger logger = LoggerFactory.getLogger(JohnHopkinsStrategy.class);
 
-	private RestTemplate restTemplate;
+   private RestTemplate restTemplate;
 
-	@Value("${config.john-hopkins-url}")
-	private String baseUrl;
+   @Value("${john.hopkins.url}")
+   private String baseUrl ="https://disease.sh/v3/covid-19/jhucsse/";
 
-	public JohnHopkinsStrategy() {
-		restTemplate = RestServiceGenerator.GetInstance();
-	}
+   public JohnHopkinsStrategy() {
+      restTemplate = RestServiceGenerator.GetInstance();
+   }
 
-	@Override
-	public String GetActiveCount() {
-		
-		
-		//try block
-			//get response from the getJohnHopkinResponses method
-			//filter the data based such that country equals India (use getCountry() to get the country value)
-			//Map the data to "confirmed" value (use getStats() and getConfirmed() to get stats value and confirmed value)
-			//Reduce the data to get a sum of all the "confirmed" values
-			//return the response after rounding it up to 0 decimal places
-		//catch block
-			//log the error
-			return null;
-
-	
-
-	}
-
-	private JohnHopkinResponse[] getJohnHopkinResponses() {
-		HttpHeaders headers = new HttpHeaders();
-		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-		headers.add("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36");
-		HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
+   @Override
+   public String GetActiveCount() {
 
 
-		return restTemplate.exchange(
-				baseUrl, HttpMethod.GET, new HttpEntity<Object>(headers),
-				JohnHopkinResponse[].class).getBody();
-	}
+      List<JohnHopkinResponse> ConfirmedJohnHopkinsResponse  ;
+      int sum=0;
+      //try block
+      //get response from the getJohnHopkinResponses method
+      try{
+         //filter the data based such that country equals India (use getCountry() to get the country value)
+         ConfirmedJohnHopkinsResponse = Arrays.stream(getJohnHopkinResponses()).filter(item->item.getStats().getConfirmed()>0).collect(Collectors.toList());
+         //Map the data to "confirmed" value (use getStats() and getConfirmed() to get stats value and confirmed value)
+         //Reduce the data to get a sum of all the "confirmed" values
+         //return the response after rounding it up to 0 decimal places
+         sum = ConfirmedJohnHopkinsResponse.stream().mapToInt(item -> item.getStats().getConfirmed().intValue()).sum();
+
+         //catch block
+
+      }catch (Exception e){
+         //log the error
+         System.out.println("Exception in populating count "+e);
+      }
+
+
+      return String.valueOf(sum);
+
+   }
+
+   private JohnHopkinResponse[] getJohnHopkinResponses() {
+      HttpHeaders headers = new HttpHeaders();
+      headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+      headers.add("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36");
+      HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
+
+
+      return restTemplate.exchange(
+            baseUrl, HttpMethod.GET, new HttpEntity<Object>(headers),
+            JohnHopkinResponse[].class).getBody();
+   }
 }
